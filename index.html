@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 設置網頁的圖標 -->
+    <link rel="icon" href="icon.png" type="image/png">
+    <meta charset="UTF-8"> <!-- 設置網頁的字符編碼為 UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 使網頁在各種設備上具有良好的顯示效果 -->
+    <title>搜索引擎 🔍</title> <!-- 頁面標題 -->
+    <style>
+        /* 全局設置 */
+        body {
+            margin: 0; /* 移除默認的邊距 */
+            font-family: 'Courier New', Courier, monospace; /* 使用等寬字體 */
+            display: flex; /* 使用彈性佈局 */
+            justify-content: center; /* 水平置中 */
+            align-items: center; /* 垂直置中 */
+            height: 100vh; /* 高度占滿整個視窗 */
+            background-color: #1e1e1e; /* 設置深色背景 */
+            color: #c5c6c7; /* 設置文字顏色為淺灰色 */
+        }
+
+        /* 搜索容器的樣式 */
+        .search-container {
+            width: 90%; /* 容器寬度為視窗寬度的 90% */
+            max-width: 600px; /* 最大寬度限制為 600 像素 */
+            display: flex; /* 彈性佈局 */
+            flex-direction: column; /* 元素垂直排列 */
+            align-items: center; /* 元素置中對齊 */
+            background: #2d2d2d; /* 容器背景色為深灰 */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7); /* 添加陰影效果 */
+            padding: 20px; /* 內邊距 20 像素 */
+            border-radius: 8px; /* 圓角效果 */
+        }
+
+        /* 容器內的圖片 */
+        .search-container img {
+            width: 33%; /* 圖片寬度為容器的 33% */
+            aspect-ratio: 1 / 1; /* 保持 1:1 的長寬比 */
+            margin-bottom: 15px; /* 圖片下方的外邊距為 15 像素 */
+        }
+
+        /* 搜索輸入框的樣式 */
+        .search-container input[type="text"] {
+            width: 100%; /* 輸入框寬度占滿容器 */
+            padding: 12px; /* 內邊距 12 像素 */
+            margin-bottom: 10px; /* 下方外邊距為 10 像素 */
+            border: 1px solid #555; /* 邊框為深灰色 */
+            border-radius: 4px; /* 圓角效果 */
+            font-size: 16px; /* 字體大小為 16 像素 */
+            background-color: #1e1e1e; /* 背景顏色與頁面背景一致 */
+            color: #c5c6c7; /* 文字顏色 */
+            box-sizing: border-box; /* 包括邊框和內邊距 */
+        }
+
+        /* 輸入框中的提示文字 */
+        .search-container input[type="text"]::placeholder {
+            color: #888; /* 提示文字顏色為中灰 */
+        }
+
+        /* 搜索按鈕的樣式 */
+        .search-container button {
+            width: 20%; /* 按鈕寬度為容器的五分之一 */
+            padding: 12px; /* 內邊距 12 像素 */
+            background-color: #007acc; /* 按鈕背景色為藍色 */
+            color: #ffffff; /* 按鈕文字顏色為白色 */
+            font-size: 16px; /* 字體大小為 16 像素 */
+            border: none; /* 移除邊框 */
+            border-radius: 4px; /* 圓角效果 */
+            cursor: pointer; /* 鼠標移到按鈕上時顯示為手型 */
+            font-family: 'Courier New', Courier, monospace; /* 使用等寬字體 */
+        }
+
+        /* 按鈕懸停時的樣式 */
+        .search-container button:hover {
+            background-color: #005a9e; /* 按鈕懸停時顏色變深 */
+        }
+
+        /* 媒體查詢，針對寬度超過 768px 的設備 */
+        @media (min-width: 768px) {
+            .search-container {
+                flex-direction: column; /* 保持垂直排列 */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 搜索功能的主容器 -->
+    <div class="search-container">
+        <!-- 搜索圖標 -->
+        <img src="icon.png" alt="Search Icon">
+        <!-- 搜索輸入框 -->
+        <input type="text" id="search-input" placeholder="請輸入搜索內容...">
+        <!-- 搜索按鈕 -->
+        <button id="search-button"> 搜索 🔍 </button>
+    </div>
+
+    <script>
+        /**
+         * 從當前 URL 的 query string 中提取 domain 參數。
+         * 如果 URL 中沒有 domain 參數，則默認使用當前網頁的主機名。
+         * @returns {string} 提取到的域名
+         */
+        function getDomainFromURL() {
+            const params = new URLSearchParams(window.location.search); // 解析 URL 中的查詢參數
+            return params.get('domain') || window.location.hostname; // 如果 domain 參數不存在，返回當前 hostname
+        }
+
+        // 為搜索按鈕添加點擊事件處理程序
+        document.getElementById('search-button').addEventListener('click', function() {
+            const query = document.getElementById('search-input').value; // 獲取輸入框中的搜索內容
+            const domain = getDomainFromURL(); // 獲取 domain 參數或默認域名
+            const baseUrl = `https://www.google.com/search?q=site%3A${encodeURIComponent(domain)}+`; // 構建 Google 搜索 URL
+            window.location.href = baseUrl + encodeURIComponent(query); // 導航到搜索結果頁面
+        });
+    </script>
+</body>
+</html>
